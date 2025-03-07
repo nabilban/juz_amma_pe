@@ -6,6 +6,18 @@ class SuratState with _$SuratState {
     @Default([]) List<Ayat> ayatList,
     required Surat surat,
     @Default(false) bool isLoading,
+    Ayat? playedAyat,
     String? errorMessage,
+    @Default([]) List<int> checkedAyatList,
   }) = _SuratState;
+}
+
+extension SuratStateExtension on SuratState {
+  bool isCurrentAyatChecked(Ayat ayat) {
+    return checkedAyatList.contains(ayat.no);
+  }
+
+  bool isCurrentAyatPlayed(Ayat ayat) {
+    return playedAyat == ayat;
+  }
 }

@@ -19,6 +19,7 @@ dependencies:
   json_annotation: ^4.9.0
   flutter_hooks: ^0.21.2
   just_audio: ^0.9.46
+  streaming_shared_preferences: ^2.0.0
 
 dev_dependencies:
   freezed: ^2.5.2

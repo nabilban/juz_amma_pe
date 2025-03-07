@@ -5,7 +5,7 @@ import 'package:juz_amma_pe/cubit/surat_cubit.dart';
 import 'package:juz_amma_pe/widgets/ayat_card.dart';
 
 class SuratPage extends HookWidget {
-  const SuratPage({super.key});
+  const SuratPage() : super(key: const Key('surat_page'));
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +80,6 @@ class SuratPage extends HookWidget {
                     itemBuilder: (context, index) {
                       return AyatCard(
                         ayat: state.ayatList[index],
-                        nomorSurat: state.surat.nomor ?? 0,
                       );
                     }),
               ],

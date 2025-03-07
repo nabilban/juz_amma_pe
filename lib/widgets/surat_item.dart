@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:juz_amma_pe/cubit/surat_cubit.dart';
 import 'package:juz_amma_pe/model/surat.dart';
 import 'package:juz_amma_pe/pages/surat_page.dart';
+import 'package:juz_amma_pe/provider/surat_provider.dart';
 
 class SuratItem extends StatelessWidget {
   const SuratItem({required this.surat, super.key});
@@ -15,12 +16,8 @@ class SuratItem extends StatelessWidget {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (_) => BlocProvider(
-                      create: (context) => SuratCubit(
-                        quranDS: context.read(),
-                        surat: surat,
-                      ),
-                      child: const SuratPage(),
+                builder: (_) => SuratScreen(
+                      surat: surat,
                     )));
       },
       title: Text('${surat.namaLatin} - ${surat.nama}'),
