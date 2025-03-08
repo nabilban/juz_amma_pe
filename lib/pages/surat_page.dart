@@ -18,7 +18,14 @@ class SuratPage extends HookWidget {
       builder: (context, state) {
         return Scaffold(
           appBar: AppBar(
-            title: Text('${state.surat.namaLatin} - ${state.surat.nama}'),
+            title: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('${state.surat.namaLatin} - ${state.surat.nama}'),
+                Text('${state.surat.arti}',
+                    style: Theme.of(context).textTheme.bodySmall),
+              ],
+            ),
           ),
           body: Builder(builder: (_) {
             if (state.isLoading) {

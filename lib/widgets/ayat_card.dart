@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:juz_amma_pe/cubit/surat_cubit.dart';
+import 'package:juz_amma_pe/extension/int.dart';
 import 'package:juz_amma_pe/model/ayat.dart';
 
 class AyatCard extends StatelessWidget {
@@ -37,7 +38,12 @@ class AyatCard extends StatelessWidget {
                               ? Colors.green[600]
                               : Colors.grey[400],
                         )),
-                    CircleAvatar(child: Text('${ayat.no}')),
+                    CircleAvatar(
+                      child: Text(
+                        (ayat.no ?? 0).toArabic,
+                        style: Theme.of(context).textTheme.headlineMedium,
+                      ),
+                    ),
                     IconButton.filled(
                         onPressed: () {
                           context.read<SuratCubit>().playAyat(ayat);

@@ -20,6 +20,7 @@ dependencies:
   flutter_hooks: ^0.21.2
   just_audio: ^0.9.46
   streaming_shared_preferences: ^2.0.0
+  change_case: ^2.2.0
 
 dev_dependencies:
   freezed: ^2.5.2

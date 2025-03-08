@@ -1,16 +1,18 @@
-import 'dart:convert';
-
+import 'package:flutter/material.dart';
 import 'package:juz_amma_pe/local/localstorage.dart';
 import 'package:streaming_shared_preferences/streaming_shared_preferences.dart';
 
 class LocalstorageImpl implements Localstorage {
   LocalstorageImpl({required this.preferences})
       : hapalanStringPreference =
-            preferences.getStringList('hapalan', defaultValue: []);
+            preferences.getStringList('hapalan', defaultValue: []),
+        themePreference =
+            preferences.getString('theme', defaultValue: 'system');
 
   final StreamingSharedPreferences preferences;
 
   final Preference<List<String>> hapalanStringPreference;
+  final Preference<String> themePreference;
 
   @override
   Stream<Map<int, List<int>>> get hapalanStream {
@@ -21,6 +23,11 @@ class LocalstorageImpl implements Localstorage {
 
       return _decodeHapalan(event);
     });
+  }
+
+  @override
+  Map<int, List<int>> getHapalan() {
+    return _decodeHapalan(hapalanStringPreference.getValue());
   }
 
   @override
@@ -71,5 +78,46 @@ class LocalstorageImpl implements Localstorage {
     });
 
     return result;
+  }
+
+  @override
+  Stream<ThemeMode> get themeModeStream =>
+      themePreference.asBroadcastStream().map((event) {
+        switch (event) {
+          case 'light':
+            return ThemeMode.light;
+          case 'dark':
+            return ThemeMode.dark;
+          default:
+            return ThemeMode.system;
+        }
+      });
+
+  @override
+  void updateThemeMode(ThemeMode themeMode) {
+    switch (themeMode) {
+      case ThemeMode.light:
+        themePreference.setValue('light');
+        break;
+      case ThemeMode.dark:
+        themePreference.setValue('dark');
+        break;
+      case ThemeMode.system:
+        themePreference.setValue('system');
+        break;
+    }
+  }
+
+  @override
+  ThemeMode getThemeMode() {
+    final data = themePreference.getValue();
+    switch (data) {
+      case 'light':
+        return ThemeMode.light;
+      case 'dark':
+        return ThemeMode.dark;
+      default:
+        return ThemeMode.system;
+    }
   }
 }

@@ -14,22 +14,14 @@ class MainCubit extends Cubit<MainState> {
     required this.localstorage,
   }) : super(const MainState()) {
     if (!isClosed) {
-      localstorage.hapalanStream.listen((data) {
-        final suratList = state.suratList.map((surat) {
-          if (data.containsKey(surat.nomor)) {
-            return surat.copyWith(
-              totalHapalan: data[surat.nomor]?.length ?? 0,
-            );
-          }
-          return surat;
-        }).toList();
-
-        emit(state.copyWith(suratList: suratList));
-      }, onError: (e) {
-        emit(state.copyWith(
-          errorMessage: 'Something went wrong : LocalStorage',
-        ));
-      });
+      localstorage.hapalanStream.listen(
+        updateHapalanView,
+        onError: (e) {
+          emit(state.copyWith(
+            errorMessage: 'Something went wrong : LocalStorage',
+          ));
+        },
+      );
     }
   }
 
@@ -40,11 +32,14 @@ class MainCubit extends Cubit<MainState> {
     emit(state.copyWith(isLoading: true));
     try {
       final result = await quranDs.getSuratList();
+      final hapalan = localstorage.getHapalan();
 
       emit(state.copyWith(
         suratList: result.where((surat) => surat.nomor! >= 78).toList(),
         isLoading: false,
       ));
+
+      updateHapalanView(hapalan);
     } catch (e) {
       emit(state.copyWith(
         isLoading: false,
@@ -55,5 +50,30 @@ class MainCubit extends Cubit<MainState> {
 
   void changeAudioType(AudioType audioType) {
     emit(state.copyWith(audioType: audioType));
+  }
+
+  void updateHapalanView(Map<int, List<int>> data) {
+    final suratList = state.suratList.map((surat) {
+      if (data.containsKey(surat.nomor)) {
+        return surat.copyWith(
+          totalHapalan: data[surat.nomor]?.length ?? 0,
+        );
+      }
+      return surat;
+    }).toList();
+
+    emit(state.copyWith(suratList: suratList));
+  }
+
+  void search(String value) {
+    emit(state.copyWith(searchQuery: value));
+  }
+
+  void updateSortedBy(SortedBy? sortedBy) {
+    emit(state.copyWith(sortedBy: sortedBy ?? SortedBy.nomorSurat));
+  }
+
+  void updateAudioType(AudioType? audioTupe) {
+    emit(state.copyWith(audioType: audioTupe ?? AudioType.abdullahAlJuhany));
   }
 }
