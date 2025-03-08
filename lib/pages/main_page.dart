@@ -14,7 +14,10 @@ class MainPage extends HookWidget {
     }, [context]);
 
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: const Text('Juz Amma PE'),
+        centerTitle: true,
+      ),
       body: BlocBuilder<MainCubit, MainState>(builder: (context, state) {
         if (state.errorMessage != null) {
           return Center(
@@ -30,6 +33,7 @@ class MainPage extends HookWidget {
 
         return ListView.builder(
           itemCount: state.suratList.length,
+          padding: const EdgeInsets.symmetric(horizontal: 16),
           itemBuilder: (context, index) {
             return SuratItem(surat: state.suratList[index]);
           },

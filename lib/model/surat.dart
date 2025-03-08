@@ -13,6 +13,7 @@ class Surat with _$Surat {
     @Default('') String? tempatTurun,
     @Default('') String? arti,
     @Default('') String? deskripsi,
+    @Default(0) int totalHapalan,
   }) = _Surat;
 
   factory Surat.fromJson(Map<String, dynamic> json) => _$SuratFromJson(json);

@@ -11,17 +11,23 @@ class SuratItem extends StatelessWidget {
   final Surat surat;
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (_) => SuratScreen(
-                      surat: surat,
-                    )));
-      },
-      title: Text('${surat.namaLatin} - ${surat.nama}'),
-      subtitle: Text(surat.arti ?? ''),
+    return Column(
+      children: [
+        ListTile(
+          onTap: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (_) => SuratScreen(
+                          surat: surat,
+                        )));
+          },
+          title: Text('${surat.namaLatin} - ${surat.nama}'),
+          subtitle: Text(surat.arti ?? ''),
+          trailing: Text('${surat.totalHapalan}/${surat.jumlahAyat}'),
+        ),
+        const Divider()
+      ],
     );
   }
 }

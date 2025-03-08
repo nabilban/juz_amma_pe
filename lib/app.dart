@@ -18,6 +18,7 @@ class App extends StatelessWidget {
       home: BlocProvider(
         create: (context) => MainCubit(
           quranDs: context.read(),
+          localstorage: context.read(),
         ),
         child: const MainPage(),
       ),
