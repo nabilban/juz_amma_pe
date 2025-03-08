@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:juz_amma_pe/cubit/main_cubit.dart';
 import 'package:juz_amma_pe/cubit/surat_cubit.dart';
 import 'package:juz_amma_pe/extension/int.dart';
 import 'package:juz_amma_pe/model/ayat.dart';
@@ -44,15 +45,21 @@ class AyatCard extends StatelessWidget {
                         style: Theme.of(context).textTheme.headlineMedium,
                       ),
                     ),
-                    IconButton.filled(
-                        onPressed: () {
-                          context.read<SuratCubit>().playAyat(ayat);
-                        },
-                        icon: Icon(
-                          state.isCurrentAyatPlayed(ayat)
-                              ? Icons.stop
-                              : Icons.play_arrow,
-                        ))
+                    BlocBuilder<MainCubit, MainState>(
+                      builder: (context, mainState) {
+                        return IconButton.filled(
+                            onPressed: () {
+                              context
+                                  .read<SuratCubit>()
+                                  .playAyat(ayat, mainState.audioType);
+                            },
+                            icon: Icon(
+                              state.isCurrentAyatPlayed(ayat)
+                                  ? Icons.stop
+                                  : Icons.play_arrow,
+                            ));
+                      },
+                    )
                   ],
                 ),
                 ListTile(

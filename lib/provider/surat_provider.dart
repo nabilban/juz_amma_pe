@@ -11,14 +11,12 @@ class SuratScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      lazy: true,
       create: (context) => SuratCubit(
         localstorage: context.read(),
         quranDS: context.read(),
-        audioPlayer: context.read(),
         surat: surat,
       ),
-      child: const SuratPage(),
+      child: SuratPage(),
     );
   }
 }

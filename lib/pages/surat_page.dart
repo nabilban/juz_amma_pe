@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -5,7 +7,7 @@ import 'package:juz_amma_pe/cubit/surat_cubit.dart';
 import 'package:juz_amma_pe/widgets/ayat_card.dart';
 
 class SuratPage extends HookWidget {
-  const SuratPage() : super(key: const Key('surat_page'));
+  SuratPage() : super(key: Key('surat_page-${Random()}'));
 
   @override
   Widget build(BuildContext context) {

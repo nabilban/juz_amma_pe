@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -9,7 +11,7 @@ part 'theme_cubit.freezed.dart';
 class ThemeCubit extends Cubit<ThemeState> {
   ThemeCubit({required this.localstorage}) : super(const ThemeState()) {
     if (!isClosed) {
-      localstorage.themeModeStream.listen(
+      _themeModeSubscription = localstorage.themeModeStream.listen(
         (data) {
           emit(state.copyWith(themeMode: data));
         },
@@ -17,6 +19,14 @@ class ThemeCubit extends Cubit<ThemeState> {
     }
   }
   final Localstorage localstorage;
+
+  late final StreamSubscription _themeModeSubscription;
+
+  @override
+  Future<void> close() async {
+    await _themeModeSubscription.cancel();
+    super.close();
+  }
 
   void init() {
     final themeMode = localstorage.getThemeMode();

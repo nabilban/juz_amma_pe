@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:juz_amma_pe/local/localstorage.dart';
@@ -14,7 +16,7 @@ class MainCubit extends Cubit<MainState> {
     required this.localstorage,
   }) : super(const MainState()) {
     if (!isClosed) {
-      localstorage.hapalanStream.listen(
+      _hapalanStreamSubscription = localstorage.hapalanStream.listen(
         updateHapalanView,
         onError: (e) {
           emit(state.copyWith(
@@ -27,6 +29,14 @@ class MainCubit extends Cubit<MainState> {
 
   final QuranDS quranDs;
   final Localstorage localstorage;
+
+  late final StreamSubscription _hapalanStreamSubscription;
+
+  @override
+  Future<void> close() async {
+    await _hapalanStreamSubscription.cancel();
+    super.close();
+  }
 
   Future<void> init() async {
     emit(state.copyWith(isLoading: true));
@@ -59,7 +69,7 @@ class MainCubit extends Cubit<MainState> {
           totalHapalan: data[surat.nomor]?.length ?? 0,
         );
       }
-      return surat;
+      return surat.copyWith(totalHapalan: 0);
     }).toList();
 
     emit(state.copyWith(suratList: suratList));

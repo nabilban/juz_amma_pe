@@ -1,8 +1,6 @@
 enum AudioType {
   abdullahAlJuhany(
-      jsonId: '01',
-      name: 'Abdullah Al-Juhany',
-      urlPart: 'Abdullah-Al-Juhany",'),
+      jsonId: '01', name: 'Abdullah Al-Juhany', urlPart: 'Abdullah-Al-Juhany'),
   abdulMuhsinAlQasim(
       jsonId: '02',
       name: 'Abdul Muhsin Al Qasim',

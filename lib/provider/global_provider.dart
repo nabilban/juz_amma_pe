@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:just_audio/just_audio.dart';
 import 'package:juz_amma_pe/cubit/main_cubit.dart';
 import 'package:juz_amma_pe/cubit/theme_cubit.dart';
 import 'package:juz_amma_pe/local/localstorage.dart';
@@ -47,9 +46,6 @@ class GlobalProvider extends StatelessWidget {
               ),
             ),
           ),
-        ),
-        Provider(
-          create: (context) => AudioPlayer(),
         ),
       ],
       child: MultiBlocProvider(providers: [

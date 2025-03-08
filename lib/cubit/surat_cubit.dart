@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:just_audio/just_audio.dart';
@@ -16,21 +18,24 @@ class SuratCubit extends Cubit<SuratState> {
     required Surat surat,
     required this.localstorage,
     required this.quranDS,
-    required this.audioPlayer,
   }) : super(SuratState(surat: surat)) {
+    audioPlayer = AudioPlayer();
     if (!isClosed) {
-      audioPlayer.playerStateStream.listen((event) {
+      _playerStateSubscription = audioPlayer.playerStateStream.listen((event) {
         if (event.processingState == ProcessingState.completed) {
           emit(state.copyWith(playedAyat: null));
         }
       }, onError: (e) {
         emit(
-            state.copyWith(errorMessage: 'Something went wrong : AudioPlayer'));
+          state.copyWith(errorMessage: 'Something went wrong : AudioPlayer'),
+        );
       });
 
-      localstorage.hapalanStream.listen((data) {
+      _hapalanStreamSubscription = localstorage.hapalanStream.listen((data) {
         if (data.containsKey(surat.nomor)) {
           emit(state.copyWith(checkedAyatList: data[surat.nomor]!));
+        } else {
+          emit(state.copyWith(checkedAyatList: []));
         }
       }, onError: (e) {
         emit(state.copyWith(
@@ -41,7 +46,18 @@ class SuratCubit extends Cubit<SuratState> {
 
   final QuranDS quranDS;
   final Localstorage localstorage;
-  final AudioPlayer audioPlayer;
+  late final AudioPlayer audioPlayer;
+
+  late final StreamSubscription _playerStateSubscription;
+  late final StreamSubscription _hapalanStreamSubscription;
+
+  @override
+  Future<void> close() async {
+    await _playerStateSubscription.cancel();
+    await _hapalanStreamSubscription.cancel();
+    audioPlayer.dispose();
+    super.close();
+  }
 
   Future<void> init() async {
     if (state.surat.nomor == null) {
@@ -62,7 +78,7 @@ class SuratCubit extends Cubit<SuratState> {
     }
   }
 
-  void playAyat(Ayat ayat) {
+  void playAyat(Ayat ayat, AudioType audioType) {
     if (state.playedAyat != null && state.playedAyat != ayat) {
       audioPlayer.stop();
     }
@@ -73,7 +89,7 @@ class SuratCubit extends Cubit<SuratState> {
       audioPlayer.setUrl(Endpoints.audioPartialUrlBuilder(
         state.surat.nomor ?? 0,
         ayat.no ?? 0,
-        AudioType.abdulMuhsinAlQasim,
+        audioType,
       ));
       audioPlayer.play();
       emit(state.copyWith(playedAyat: ayat));
