@@ -50,7 +50,7 @@ class AyatCard extends StatelessWidget {
                         },
                         icon: Icon(
                           state.isCurrentAyatPlayed(ayat)
-                              ? Icons.pause
+                              ? Icons.stop
                               : Icons.play_arrow,
                         ))
                   ],

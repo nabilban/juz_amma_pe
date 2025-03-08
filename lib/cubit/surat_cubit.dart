@@ -70,6 +70,7 @@ class SuratCubit extends Cubit<SuratState> {
     }
     if (state.playedAyat == ayat) {
       audioPlayer.pause();
+      emit(state.copyWith(playedAyat: null));
     } else {
       audioPlayer.setUrl(Endpoints.audioPartialUrlBuilder(
         state.surat.nomor ?? 0,
