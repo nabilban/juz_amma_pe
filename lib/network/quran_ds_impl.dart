@@ -30,6 +30,5 @@ class QuranDSImpl extends QuranDS {
       suratList.add(Surat.fromJson(surat));
     }
     return suratList;
-    ;
   }
 }
