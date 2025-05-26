@@ -21,6 +21,7 @@ dependencies:
   just_audio: ^0.9.46
   streaming_shared_preferences: ^2.0.0
   change_case: ^2.2.0
+  # icons_launcher: ^3.0.1  
 
 dev_dependencies:
   freezed: ^2.5.2
@@ -32,6 +33,18 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  assets:
+    - assets/
+    - assets/images/
+
+# icons_launcher:
+#   image_path: "assets/images/logo.png"
+#   platforms:
+#     android:
+#       enable: true
+#     ios:
+#       enable: true
+
 
   
   

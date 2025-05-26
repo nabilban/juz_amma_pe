@@ -1,0 +1,2 @@
+/Users/mfarhannabil/dev/PBP/juz_amma_pe/android/app/.cxx/Debug/3j651z1z/x86/CMakeFiles/edit_cache.dir
+/Users/mfarhannabil/dev/PBP/juz_amma_pe/android/app/.cxx/Debug/3j651z1z/x86/CMakeFiles/rebuild_cache.dir
