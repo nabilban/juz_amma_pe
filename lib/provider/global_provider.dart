@@ -5,6 +5,8 @@ import 'package:juz_amma_pe/cubit/main_cubit.dart';
 import 'package:juz_amma_pe/cubit/theme_cubit.dart';
 import 'package:juz_amma_pe/local/localstorage.dart';
 import 'package:juz_amma_pe/local/localstorage_impl.dart';
+import 'package:juz_amma_pe/network/doa_ds.dart';
+import 'package:juz_amma_pe/network/doa_ds_impl.dart';
 import 'package:juz_amma_pe/network/endpoints.dart';
 import 'package:juz_amma_pe/network/quran_ds.dart';
 import 'package:juz_amma_pe/network/quran_ds_impl.dart';
@@ -33,6 +35,13 @@ class GlobalProvider extends StatelessWidget {
             preferences: context.read(),
           ),
         ),
+        Provider<DoaDs>(
+            create: (context) => DoaDsImpl(
+                    doaApi: Dio(
+                  BaseOptions(
+                    baseUrl: Endpoints.doaBaseUrl,
+                  ),
+                ))),
         Provider<QuranDS>(
           create: (context) => QuranDSImpl(
             quranApi: Dio(
@@ -51,6 +60,7 @@ class GlobalProvider extends StatelessWidget {
       child: MultiBlocProvider(providers: [
         BlocProvider(
             create: (context) => MainCubit(
+                  doaDs: context.read(),
                   quranDs: context.read(),
                   localstorage: context.read(),
                 )),

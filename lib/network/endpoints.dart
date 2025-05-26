@@ -7,6 +7,7 @@ import 'package:juz_amma_pe/model/audio_type.dart';
 class Endpoints {
   Endpoints._();
 
+  static const String doaBaseUrl = 'https://open-api.my.id/api';
   static const String baseUrl = 'https://equran.id/api/v2';
   static const String audioBaseUrl = 'https://equran.nos.wjv-1.neo.id';
   static String audioPartialUrlBuilder(

@@ -4,6 +4,7 @@ part of 'main_cubit.dart';
 class MainState with _$MainState {
   const factory MainState({
     @Default([]) List<Surat> suratList,
+    @Default([]) List<Doa> doaList,
     @Default(false) bool isLoading,
     @Default(AudioType.abdullahAlJuhany) AudioType audioType,
     @Default('') String searchQuery,
