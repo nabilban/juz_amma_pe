@@ -4,6 +4,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:juz_amma_pe/cubit/main_cubit.dart';
 import 'package:juz_amma_pe/model/surat.dart';
 import 'package:juz_amma_pe/pages/settings_page.dart';
+import 'package:juz_amma_pe/provider/doa_provider.dart';
 import 'package:juz_amma_pe/widgets/surat_item.dart';
 
 class MainPage extends StatefulHookWidget {
@@ -59,54 +60,53 @@ class _MainPageState extends State<MainPage> {
           children: [
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              child: SearchBar(
-                padding:
-                    const WidgetStatePropertyAll(EdgeInsets.only(left: 16)),
-                leading: const Icon(Icons.search),
-                trailing: [
-                  IconButton(
-                    onPressed: () {
-                      setState(() {
-                        showOptions = !showOptions;
-                      });
-                    },
-                    icon: const Icon(Icons.more_vert),
+              child: Row(
+                children: [
+                  Expanded(
+                    flex: 3,
+                    child: SearchBar(
+                      hintText: 'Cari Surat',
+                      padding: const WidgetStatePropertyAll(
+                          EdgeInsets.only(left: 16)),
+                      leading: const Icon(Icons.search),
+                      trailing: [
+                        IconButton(
+                          onPressed: () {
+                            setState(() {
+                              showOptions = !showOptions;
+                            });
+                          },
+                          icon: const Icon(Icons.more_vert),
+                        ),
+                      ],
+                      onChanged: context.read<MainCubit>().search,
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    flex: 2,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                      height: MediaQuery.of(context).size.height * 0.06,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          elevation: 5, // Adds shadow
+                        ),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const DoaProvider(),
+                            ),
+                          );
+                        },
+                        child: const Text('📖 Doa Doa'),
+                      ),
+                    ),
                   ),
                 ],
-                onChanged: context.read<MainCubit>().search,
               ),
             ),
-            if (showOptions)
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    DropdownButton<SortedBy>(
-                      alignment: Alignment.topCenter,
-                      borderRadius: BorderRadius.circular(16),
-                      value: state.sortedBy,
-                      items: SortedBy.values
-                          .map((e) => DropdownMenuItem(
-                                value: e,
-                                child: Text(e.label),
-                              ))
-                          .toList(),
-                      onChanged: context.read<MainCubit>().updateSortedBy,
-                    ),
-                    OutlinedButton.icon(
-                      onPressed: () {
-                        setState(() {
-                          isAsc = !isAsc;
-                        });
-                      },
-                      label: Icon(
-                          isAsc ? Icons.arrow_downward : Icons.arrow_upward),
-                      icon: const Icon(Icons.sort),
-                    )
-                  ],
-                ),
-              ),
             Expanded(
               child: Builder(builder: (context) {
                 if (state.searchQuery.isNotEmpty) {

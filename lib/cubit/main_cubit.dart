@@ -35,10 +35,12 @@ class MainCubit extends Cubit<MainState> {
   final Localstorage localstorage;
 
   late final StreamSubscription _hapalanStreamSubscription;
+  late final StreamSubscription _doaStateSubscription;
 
   @override
   Future<void> close() async {
     await _hapalanStreamSubscription.cancel();
+    await _doaStateSubscription.cancel();
     super.close();
   }
 

@@ -6,11 +6,13 @@ class LocalstorageImpl implements Localstorage {
   LocalstorageImpl({required this.preferences})
       : hapalanStringPreference =
             preferences.getStringList('hapalan', defaultValue: []),
+        doaStringPreference =
+            preferences.getStringList('doa', defaultValue: []),
         themePreference =
             preferences.getString('theme', defaultValue: 'system');
 
   final StreamingSharedPreferences preferences;
-
+  final Preference<List<String>> doaStringPreference;
   final Preference<List<String>> hapalanStringPreference;
   final Preference<String> themePreference;
 
@@ -119,5 +121,40 @@ class LocalstorageImpl implements Localstorage {
       default:
         return ThemeMode.system;
     }
+  }
+
+  @override
+  Stream<List<int>> get doaStream {
+    return doaStringPreference
+        .asBroadcastStream()
+        .map((list) => list.map(int.parse).toList());
+  }
+
+  @override
+  void doaUpsert(int id) {
+    final current = doaStringPreference.getValue().map(int.parse).toList();
+
+    if (current.contains(id)) {
+      current.remove(id);
+    } else {
+      current.add(id);
+    }
+
+    doaStringPreference.setValue(current.map((e) => e.toString()).toList());
+  }
+
+  @override
+  List<int> getDoa() {
+    // Optional: change return type to List<int> if you're only saving IDs
+    final list = doaStringPreference.getValue();
+    final ids = list.map(int.parse).toList();
+
+    // Since your current return type is Map<int, List<int>>,
+    // but you're just storing flat doa IDs, you could either:
+    // - return as: `{0: ids}` or
+    // - change return type in interface to `List<int>`
+
+    // Suggestion: update interface to `List<int> getDoa();`
+    return ids;
   }
 }
