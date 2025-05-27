@@ -133,6 +133,37 @@ class _MainPageState extends State<MainPage> {
                 ],
               ),
             ),
+            if (showOptions)
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    DropdownButton<SortedBy>(
+                      alignment: Alignment.topCenter,
+                      borderRadius: BorderRadius.circular(16),
+                      value: state.sortedBy,
+                      items: SortedBy.values
+                          .map((e) => DropdownMenuItem(
+                                value: e,
+                                child: Text(e.label),
+                              ))
+                          .toList(),
+                      onChanged: context.read<MainCubit>().updateSortedBy,
+                    ),
+                    OutlinedButton.icon(
+                      onPressed: () {
+                        setState(() {
+                          isAsc = !isAsc;
+                        });
+                      },
+                      label: Icon(
+                          isAsc ? Icons.arrow_downward : Icons.arrow_upward),
+                      icon: const Icon(Icons.sort),
+                    )
+                  ],
+                ),
+              ),
             Expanded(
               child: Builder(builder: (context) {
                 if (state.searchQuery.isNotEmpty) {

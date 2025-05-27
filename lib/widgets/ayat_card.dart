@@ -36,7 +36,7 @@ class AyatCard extends StatelessWidget {
                         icon: Icon(
                           Icons.check_circle,
                           color: state.isCurrentAyatChecked(ayat)
-                              ? Colors.green[600]
+                              ? Colors.blue[600]
                               : Colors.grey[400],
                         )),
                     CircleAvatar(
