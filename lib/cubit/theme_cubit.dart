@@ -4,12 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:juz_amma_pe/local/localstorage.dart';
+import 'package:juz_amma_pe/theme/theme.dart';
 
 part 'theme_state.dart';
 part 'theme_cubit.freezed.dart';
 
 class ThemeCubit extends Cubit<ThemeState> {
-  ThemeCubit({required this.localstorage}) : super(const ThemeState()) {
+  ThemeCubit({required this.localstorage, required AppTheme theme})
+      : super(ThemeState(
+          appTheme: theme,
+        )) {
     if (!isClosed) {
       _themeModeSubscription = localstorage.themeModeStream.listen(
         (data) {

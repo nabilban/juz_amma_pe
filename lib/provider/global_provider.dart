@@ -10,6 +10,8 @@ import 'package:juz_amma_pe/network/doa_ds_impl.dart';
 import 'package:juz_amma_pe/network/endpoints.dart';
 import 'package:juz_amma_pe/network/quran_ds.dart';
 import 'package:juz_amma_pe/network/quran_ds_impl.dart';
+import 'package:juz_amma_pe/theme/theme.dart';
+import 'package:juz_amma_pe/theme/util.dart';
 import 'package:provider/provider.dart';
 import 'package:streaming_shared_preferences/streaming_shared_preferences.dart';
 
@@ -25,6 +27,8 @@ class GlobalProvider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    TextTheme textTheme = createTextTheme(context, "Arya", "Arya");
+
     return MultiProvider(
       providers: [
         Provider<StreamingSharedPreferences>(
@@ -66,6 +70,7 @@ class GlobalProvider extends StatelessWidget {
                 )),
         BlocProvider(
             create: (context) => ThemeCubit(
+                  theme: AppTheme(textTheme),
                   localstorage: context.read(),
                 )..init())
       ], child: child),

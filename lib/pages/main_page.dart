@@ -27,22 +27,6 @@ class _MainPageState extends State<MainPage> {
     }, [context]);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Juz Amma PE'),
-        centerTitle: true,
-        actions: [
-          IconButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const SettingsPage(),
-                  ),
-                );
-              },
-              icon: const Icon(Icons.settings))
-        ],
-      ),
       body: BlocBuilder<MainCubit, MainState>(builder: (context, state) {
         if (state.errorMessage != null) {
           return Center(
@@ -57,7 +41,49 @@ class _MainPageState extends State<MainPage> {
         }
 
         return Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            SizedBox(
+              height: MediaQuery.of(context).padding.top,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                IconButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const SettingsPage(),
+                        ),
+                      );
+                    },
+                    icon: const Icon(Icons.settings))
+              ],
+            ),
+            Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+              Image.asset(
+                'assets/icon/icon.png', // Replace with your image path
+                height: MediaQuery.of(context).size.height * 0.09,
+              ),
+              const SizedBox(width: 8),
+              const Column(
+                children: [
+                  Text(
+                    'Juz Amma PE',
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Text(
+                    'Easy To Access Juz Amma',
+                    style: TextStyle(fontSize: 16),
+                  ),
+                ],
+              )
+            ]),
+            const SizedBox(height: 12),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               child: Row(

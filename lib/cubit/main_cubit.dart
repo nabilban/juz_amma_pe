@@ -47,13 +47,13 @@ class MainCubit extends Cubit<MainState> {
   Future<void> init() async {
     emit(state.copyWith(isLoading: true));
     try {
-      final result = await quranDs.getSuratList();
+      final suratList = await quranDs.getSuratList();
       final doaList = await doaDs.getDoaList();
       final hapalan = localstorage.getHapalan();
 
       emit(state.copyWith(
         doaList: doaList,
-        suratList: result.where((surat) => surat.nomor! >= 78).toList(),
+        suratList: suratList.where((surat) => surat.nomor! >= 78).toList(),
         isLoading: false,
       ));
 
